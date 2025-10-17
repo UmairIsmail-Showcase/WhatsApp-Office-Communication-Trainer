@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Office Communication Trainer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .whatsapp-bg {
+            background: linear-gradient(135deg, #128C7E 0%, #075E54 100%);
+        }
+        
+        .chat-container {
+            background: #E5DDD5;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        .message-bubble {
+            max-width: 80%;
+            word-wrap: break-word;
+            animation: messageSlide 0.3s ease-out;
+        }
+        
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .received-message {
+            background: #FFFFFF;
+            border-radius: 7.5px 7.5px 7.5px 0;
+            box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+        }
+        
+        .sent-message {
+            background: #DCF8C6;
+            border-radius: 7.5px 7.5px 0 7.5px;
+            box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+        }
+        
+        .option-button {
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+        
+        .option-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .option-correct {
+            border-color: #10B981;
+            background: #ECFDF5;
+        }
+        
+        .option-incorrect {
+            border-color: #EF4444;
+            background: #FEF2F2;
+        }
+        
+        .typing-indicator {
+            animation: typing 1.5s infinite;
+        }
+        
+        @keyframes typing {
+            0%, 60%, 100% { opacity: 0.3; }
+            30% { opacity: 1; }
+        }
+        
+        .progress-bar {
+            transition: width 0.5s ease;
+        }
+        
+        .scenario-card {
+            transition: all 0.3s ease;
+        }
+        
+        .scenario-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .badge {
+            animation: badgeBounce 0.6s ease-out;
+        }
+        
+        @keyframes badgeBounce {
+            0% { transform: scale(0) rotate(180deg); }
+            50% { transform: scale(1.2) rotate(0deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-full">
+    <!-- Header -->
+    <div class="whatsapp-bg text-white p-4 shadow-lg">
+        <div class="max-w-4xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-2xl">💬</div>
+                <div>
+                    <h1 class="text-2xl font-bold">WhatsApp Office Communication Trainer</h1>
+                    <p class="text-green-100">Learn professional messaging skills</p>
+                </div>
+            </div>
+            <div class="text-right">
+                <div class="text-sm opacity-90">Progress</div>
+                <div class="w-32 bg-green-800 rounded-full h-3 mt-1">
+                    <div class="progress-bar bg-yellow-400 h-full rounded-full" style="width: 0%" id="progressBar"></div>
+                </div>
+                <div class="text-xs mt-1" id="progressText">0/5 Scenarios</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-4xl mx-auto p-6">
+        <!-- Welcome Screen -->
+        <div id="welcomeScreen" class="text-center py-12">
+            <div class="text-8xl mb-6">📱</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-4">Master Professional WhatsApp Communication</h2>
+            <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+                Learn how to communicate effectively in office WhatsApp groups through interactive role-play scenarios. 
+                Practice real situations and get instant feedback!
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <div class="text-4xl mb-3">🎯</div>
+                    <h3 class="font-bold text-lg mb-2">Real Scenarios</h3>
+                    <p class="text-gray-600 text-sm">Practice with actual office situations you'll encounter</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <div class="text-4xl mb-3">💡</div>
+                    <h3 class="font-bold text-lg mb-2">Instant Feedback</h3>
+                    <p class="text-gray-600 text-sm">Learn why certain responses work better than others</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <div class="text-4xl mb-3">🏆</div>
+                    <h3 class="font-bold text-lg mb-2">Track Progress</h3>
+                    <p class="text-gray-600 text-sm">See your improvement and earn communication badges</p>
+                </div>
+            </div>
+            
+            <button onclick="startTraining()" class="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-xl font-bold text-xl transform hover:scale-105 transition-all shadow-lg">
+                🚀 Start Training
+            </button>
+        </div>
+
+        <!-- Scenario Selection -->
+        <div id="scenarioSelection" class="hidden">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Choose Your Training Scenario</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="scenarioGrid">
+                <!-- Scenarios will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Chat Interface -->
+        <div id="chatInterface" class="hidden">
+            <!-- Chat Header -->
+            <div class="bg-green-600 text-white p-4 rounded-t-xl flex items-center space-x-4">
+                <button onclick="backToScenarios()" class="text-white hover:bg-green-700 p-2 rounded-full transition-all">
+                    ← Back
+                </button>
+                <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center" id="groupAvatar">👥</div>
+                <div>
+                    <div class="font-bold" id="groupName">Office Group</div>
+                    <div class="text-sm text-green-100" id="groupInfo">5 participants</div>
+                </div>
+            </div>
+
+            <!-- Chat Messages -->
+            <div class="chat-container h-96 overflow-y-auto p-4" id="chatMessages">
+                <!-- Messages will appear here -->
+            </div>
+
+            <!-- Response Options -->
+            <div class="bg-white p-4 rounded-b-xl border-t" id="responseOptions">
+                <div class="text-sm text-gray-600 mb-3" id="situationPrompt">How would you respond?</div>
+                <div class="space-y-2" id="optionButtons">
+                    <!-- Option buttons will appear here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="resultsScreen" class="hidden text-center py-12">
+            <div class="text-8xl mb-6" id="resultEmoji">🎉</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-4" id="resultTitle">Great Job!</h2>
+            <p class="text-xl text-gray-600 mb-8" id="resultMessage">You've completed the training scenario.</p>
+            
+            <div class="bg-white rounded-xl p-8 shadow-lg max-w-2xl mx-auto mb-8">
+                <h3 class="text-2xl font-bold mb-6">Your Performance</h3>
+                <div class="grid grid-cols-3 gap-6">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-green-600" id="correctAnswers">0</div>
+                        <div class="text-sm text-gray-600">Correct Responses</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-blue-600" id="totalQuestions">0</div>
+                        <div class="text-sm text-gray-600">Total Questions</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-purple-600" id="scorePercentage">0%</div>
+                        <div class="text-sm text-gray-600">Success Rate</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-center space-x-4">
+                <button onclick="backToScenarios()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold transition-all">
+                    Try Another Scenario
+                </button>
+                <button onclick="restartScenario()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl font-bold transition-all">
+                    Retry This Scenario
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Achievement Notification -->
+    <div id="achievementNotification" class="fixed top-4 right-4 bg-yellow-400 text-gray-800 p-4 rounded-xl shadow-lg transform translate-x-full transition-transform duration-300">
+        <div class="flex items-center space-x-3">
+            <div class="text-2xl" id="achievementIcon">🏆</div>
+            <div>
+                <div class="font-bold" id="achievementTitle">Achievement Unlocked!</div>
+                <div class="text-sm" id="achievementDesc">Great communication skills!</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Training State
+        let trainingState = {
+            currentScenario: null,
+            currentStep: 0,
+            correctAnswers: 0,
+            totalQuestions: 0,
+            completedScenarios: [],
+            achievements: []
+        };
+
+        // Scenario Database
+        const scenarios = {
+            'meeting-reminder': {
+                title: 'Meeting Reminder',
+                description: 'Send a professional meeting reminder to your team',
+                icon: '📅',
+                difficulty: 'Beginner',
+                groupName: 'Marketing Team',
+                groupInfo: '8 participants',
+                avatar: '📊',
+                steps: [
+                    {
+                        context: "You need to remind your team about tomorrow's important client presentation meeting at 10 AM.",
+                        messages: [
+                            { sender: 'system', text: 'You need to send a meeting reminder to your team', type: 'info' }
+                        ],
+                        prompt: "How would you remind your team about the meeting?",
+                        options: [
+                            {
+                                text: "hey guys dont forget meeting tomorrow 10am",
+                                feedback: "Too casual and lacks important details. Professional messages should be clear and complete.",
+                                correct: false
+                            },
+                            {
+                                text: "Good morning team! Friendly reminder about our client presentation meeting tomorrow (Tuesday) at 10:00 AM in Conference Room B. Please bring your project updates. Thanks!",
+                                feedback: "Perfect! Professional tone, includes all necessary details (day, time, location, what to bring), and uses polite language.",
+                                correct: true
+                            },
+                            {
+                                text: "MEETING TOMORROW 10AM DON'T BE LATE!!!",
+                                feedback: "Too aggressive and unprofessional. Avoid using all caps and threatening language in office communications.",
+                                correct: false
+                            }
+                        ]
+                    },
+                    {
+                        context: "A team member asks if they can join the meeting virtually due to illness.",
+                        messages: [
+                            { sender: 'Sarah', text: 'Hi, I\'m feeling unwell today. Can I join the meeting virtually tomorrow?', type: 'received' }
+                        ],
+                        prompt: "How would you respond to Sarah's request?",
+                        options: [
+                            {
+                                text: "No, you need to be there in person",
+                                feedback: "Too harsh and inflexible. Good managers accommodate reasonable requests when possible.",
+                                correct: false
+                            },
+                            {
+                                text: "Of course, Sarah! Hope you feel better soon. I'll send you the meeting link. Take care! 🙂",
+                                feedback: "Excellent! Shows empathy, provides a solution, and maintains a caring but professional tone.",
+                                correct: true
+                            },
+                            {
+                                text: "ok",
+                                feedback: "Too brief and doesn't show care for your colleague or provide necessary information (like the meeting link).",
+                                correct: false
+                            }
+                        ]
+                    }
+                ]
+            },
+            'project-update': {
+                title: 'Project Status Update',
+                description: 'Share project progress with stakeholders professionally',
+                icon: '📈',
+                difficulty: 'Intermediate',
+                groupName: 'Project Alpha Team',
+                groupInfo: '12 participants',
+                avatar: '🎯',
+                steps: [
+                    {
+                        context: "Your project is running slightly behind schedule and you need to update the team.",
+                        messages: [
+                            { sender: 'system', text: 'You need to provide a project status update', type: 'info' }
+                        ],
+                        prompt: "How would you communicate the project delay?",
+                        options: [
+                            {
+                                text: "we're behind schedule, not my fault though",
+                                feedback: "Unprofessional and defensive. Never blame others or make excuses in professional communications.",
+                                correct: false
+                            },
+                            {
+                                text: "Hi team, Quick update on Project Alpha: We're currently 2 days behind due to unexpected technical challenges. Working on solutions and will have revised timeline by Friday. Will keep you posted. Thanks for your patience!",
+                                feedback: "Perfect! Honest, specific, includes next steps, and maintains professional accountability.",
+                                correct: true
+                            },
+                            {
+                                text: "everything is fine, no problems here",
+                                feedback: "Dishonest and unhelpful. Transparency is crucial in professional communications.",
+                                correct: false
+                            }
+                        ]
+                    },
+                    {
+                        context: "A stakeholder asks for more details about the delay.",
+                        messages: [
+                            { sender: 'Manager', text: 'Can you provide more details about what technical challenges we\'re facing?', type: 'received' }
+                        ],
+                        prompt: "How would you provide more details?",
+                        options: [
+                            {
+                                text: "it's complicated, you wouldn't understand",
+                                feedback: "Condescending and unprofessional. Always respect your colleagues' intelligence and provide clear explanations.",
+                                correct: false
+                            },
+                            {
+                                text: "Sure! The main issue is database integration taking longer than expected. Our dev team is working with IT to resolve compatibility issues. I can schedule a brief call if you'd like more technical details.",
+                                feedback: "Excellent! Provides specific information, shows proactive problem-solving, and offers additional communication if needed.",
+                                correct: true
+                            },
+                            {
+                                text: "just some tech stuff, will be fixed soon",
+                                feedback: "Too vague and dismissive. Stakeholders need specific information to make informed decisions.",
+                                correct: false
+                            }
+                        ]
+                    }
+                ]
+            },
+            'urgent-request': {
+                title: 'Handling Urgent Requests',
+                description: 'Respond appropriately to urgent work requests',
+                icon: '🚨',
+                difficulty: 'Advanced',
+                groupName: 'Operations Team',
+                groupInfo: '15 participants',
+                avatar: '⚡',
+                steps: [
+                    {
+                        context: "Your manager sends an urgent request for a report that's needed in 2 hours.",
+                        messages: [
+                            { sender: 'Manager', text: 'Hi, I need the Q3 sales report ASAP for the board meeting at 3 PM today. Can you help?', type: 'received' }
+                        ],
+                        prompt: "How would you respond to this urgent request?",
+                        options: [
+                            {
+                                text: "impossible, I'm busy with other things",
+                                feedback: "Too negative and unhelpful. Even if you can't fulfill the request, offer alternatives or solutions.",
+                                correct: false
+                            },
+                            {
+                                text: "Hi! I understand the urgency. I can have the Q3 sales report ready by 2:30 PM. I'll prioritize this and send it directly to you. Is there a specific format you need?",
+                                feedback: "Perfect! Acknowledges urgency, commits to a specific time, shows you're prioritizing it, and asks clarifying questions.",
+                                correct: true
+                            },
+                            {
+                                text: "why didn't you ask earlier?",
+                                feedback: "Unprofessional and confrontational. Focus on solutions, not blame, especially with urgent requests.",
+                                correct: false
+                            }
+                        ]
+                    },
+                    {
+                        context: "While working on the urgent report, another colleague asks for help with their task.",
+                        messages: [
+                            { sender: 'John', text: 'Hey, can you help me with the client presentation? I\'m stuck on the financial projections.', type: 'received' }
+                        ],
+                        prompt: "How would you handle this conflicting priority?",
+                        options: [
+                            {
+                                text: "can't help, too busy",
+                                feedback: "Too abrupt. You can be brief but still professional and helpful.",
+                                correct: false
+                            },
+                            {
+                                text: "Hi John! I'm currently working on an urgent report for the board meeting, but I can help you right after (around 3 PM). Alternatively, Sarah from finance might be available now if it's urgent. Let me know!",
+                                feedback: "Excellent! Explains your situation, offers alternative timing, suggests another resource, and maintains helpfulness.",
+                                correct: true
+                            },
+                            {
+                                text: "ask someone else",
+                                feedback: "Dismissive and unhelpful. Always try to provide alternatives or explain your situation professionally.",
+                                correct: false
+                            }
+                        ]
+                    }
+                ]
+            },
+            'feedback-delivery': {
+                title: 'Giving Constructive Feedback',
+                description: 'Provide feedback professionally and constructively',
+                icon: '💬',
+                difficulty: 'Advanced',
+                groupName: 'Design Team',
+                groupInfo: '6 participants',
+                avatar: '🎨',
+                steps: [
+                    {
+                        context: "A team member shared their work and you notice some issues that need addressing.",
+                        messages: [
+                            { sender: 'Alex', text: 'Hi everyone! Here\'s the new logo design for the Johnson project. What do you think?', type: 'received' },
+                            { sender: 'system', text: 'Alex shared: logo_design_v1.png', type: 'file' }
+                        ],
+                        prompt: "The design has some issues. How would you provide feedback?",
+                        options: [
+                            {
+                                text: "this looks terrible, start over",
+                                feedback: "Too harsh and demotivating. Feedback should be constructive and specific, not just critical.",
+                                correct: false
+                            },
+                            {
+                                text: "Great work on the concept, Alex! I like the color scheme. For the Johnson brand, we might want to consider making the font slightly bolder and adjusting the spacing. What do you think about trying those tweaks?",
+                                feedback: "Perfect! Starts with positive feedback, gives specific suggestions, and asks for their input. This is constructive feedback at its best.",
+                                correct: true
+                            },
+                            {
+                                text: "looks good to me",
+                                feedback: "While positive, this doesn't help improve the work. Good feedback should be honest and helpful, even if it means suggesting improvements.",
+                                correct: false
+                            }
+                        ]
+                    },
+                    {
+                        context: "Alex responds positively to your feedback and asks for more specific guidance.",
+                        messages: [
+                            { sender: 'Alex', text: 'Thanks for the feedback! Can you be more specific about the spacing? I want to get this right.', type: 'received' }
+                        ],
+                        prompt: "How would you provide more detailed guidance?",
+                        options: [
+                            {
+                                text: "just make it look better",
+                                feedback: "Too vague and unhelpful. When someone asks for specific guidance, provide clear, actionable advice.",
+                                correct: false
+                            },
+                            {
+                                text: "Sure! Try increasing the space between the icon and text by about 20%, and reduce the letter spacing in the company name slightly. I can hop on a quick call if you'd like to go through it together!",
+                                feedback: "Excellent! Provides specific, measurable guidance and offers additional support. This helps the person learn and improve.",
+                                correct: true
+                            },
+                            {
+                                text: "you should know how to do this",
+                                feedback: "Condescending and unhelpful. Good mentoring means helping colleagues grow, not making them feel inadequate.",
+                                correct: false
+                            }
+                        ]
+                    }
+                ]
+            },
+            'conflict-resolution': {
+                title: 'Managing Group Conflicts',
+                description: 'Handle disagreements professionally in group chats',
+                icon: '🤝',
+                difficulty: 'Expert',
+                groupName: 'Cross-functional Team',
+                groupInfo: '10 participants',
+                avatar: '⚖️',
+                steps: [
+                    {
+                        context: "Two team members are having a disagreement in the group chat about project priorities.",
+                        messages: [
+                            { sender: 'Mike', text: 'I think we should focus on the mobile app first. It\'s more important for our users.', type: 'received' },
+                            { sender: 'Lisa', text: 'That\'s wrong. The website redesign should be our priority. We\'re losing customers because of the poor UX.', type: 'received' },
+                            { sender: 'Mike', text: 'You\'re not seeing the bigger picture here, Lisa.', type: 'received' }
+                        ],
+                        prompt: "How would you handle this escalating disagreement?",
+                        options: [
+                            {
+                                text: "guys, stop fighting",
+                                feedback: "Too casual and doesn't address the underlying issue. Professional conflict resolution requires more thoughtful intervention.",
+                                correct: false
+                            },
+                            {
+                                text: "Hi team, I can see we have different perspectives on priorities, which is valuable! Both mobile and web are important. Let's schedule a brief meeting to discuss this properly and align on our roadmap. Mike and Lisa, can you both prepare your key points?",
+                                feedback: "Perfect! Acknowledges both viewpoints, reframes the conflict as valuable input, suggests a proper forum for discussion, and gives both parties a constructive way forward.",
+                                correct: true
+                            },
+                            {
+                                text: "Lisa is right, Mike you're wrong",
+                                feedback: "Taking sides will escalate the conflict and damage team dynamics. Good managers help find solutions, not pick winners.",
+                                correct: false
+                            }
+                        ]
+                    },
+                    {
+                        context: "After your intervention, one team member continues to be confrontational.",
+                        messages: [
+                            { sender: 'Mike', text: 'I don\'t need a meeting. My point is clear and I\'m not changing my mind.', type: 'received' }
+                        ],
+                        prompt: "How would you handle this continued resistance?",
+                        options: [
+                            {
+                                text: "Mike, you're being difficult",
+                                feedback: "Personal attacks will make the situation worse. Stay professional and focus on the work, not personality conflicts.",
+                                correct: false
+                            },
+                            {
+                                text: "I understand you feel strongly about this, Mike. Let's take this conversation offline to discuss your concerns properly. I'll send you a calendar invite. Thanks everyone for your input!",
+                                feedback: "Excellent! Acknowledges his feelings, moves the conflict out of the group chat, and maintains professionalism while protecting team dynamics.",
+                                correct: true
+                            },
+                            {
+                                text: "fine, do whatever you want",
+                                feedback: "Passive-aggressive and unprofessional. Leaders need to address conflicts constructively, not give up.",
+                                correct: false
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        // Initialize the application
+        function startTraining() {
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('scenarioSelection').classList.remove('hidden');
+            loadScenarios();
+        }
+
+        function loadScenarios() {
+            const grid = document.getElementById('scenarioGrid');
+            grid.innerHTML = '';
+
+            Object.keys(scenarios).forEach(scenarioId => {
+                const scenario = scenarios[scenarioId];
+                const isCompleted = trainingState.completedScenarios.includes(scenarioId);
+                
+                const card = document.createElement('div');
+                card.className = `scenario-card bg-white p-6 rounded-xl shadow-lg cursor-pointer border-2 ${isCompleted ? 'border-green-200 bg-green-50' : 'border-gray-200 hover:border-blue-300'}`;
+                card.onclick = () => startScenario(scenarioId);
+                
+                card.innerHTML = `
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="text-4xl">${scenario.icon}</div>
+                        ${isCompleted ? '<div class="badge text-green-600 text-2xl">✅</div>' : ''}
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">${scenario.title}</h3>
+                    <p class="text-gray-600 mb-4">${scenario.description}</p>
+                    <div class="flex items-center justify-between">
+                        <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">${scenario.difficulty}</span>
+                        <span class="text-sm text-gray-500">${scenario.steps.length} situations</span>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        function startScenario(scenarioId) {
+            trainingState.currentScenario = scenarioId;
+            trainingState.currentStep = 0;
+            trainingState.correctAnswers = 0;
+            trainingState.totalQuestions = 0;
+
+            const scenario = scenarios[scenarioId];
+            
+            // Update chat header
+            document.getElementById('groupName').textContent = scenario.groupName;
+            document.getElementById('groupInfo').textContent = scenario.groupInfo;
+            document.getElementById('groupAvatar').textContent = scenario.avatar;
+
+            // Show chat interface
+            document.getElementById('scenarioSelection').classList.add('hidden');
+            document.getElementById('chatInterface').classList.remove('hidden');
+
+            // Start first step
+            loadStep();
+        }
+
+        function loadStep() {
+            const scenario = scenarios[trainingState.currentScenario];
+            const step = scenario.steps[trainingState.currentStep];
+            
+            // Clear previous messages and options
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML = '';
+            
+            // Add context message
+            if (step.context) {
+                addMessage('system', step.context, 'info');
+            }
+            
+            // Add step messages
+            step.messages.forEach(message => {
+                setTimeout(() => {
+                    addMessage(message.sender, message.text, message.type);
+                }, 500);
+            });
+            
+            // Show response options after messages
+            setTimeout(() => {
+                showResponseOptions(step);
+            }, 1000);
+        }
+
+        function addMessage(sender, text, type = 'received') {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            
+            if (type === 'info') {
+                messageDiv.className = 'text-center mb-4';
+                messageDiv.innerHTML = `
+                    <div class="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-lg inline-block text-sm">
+                        ℹ️ ${text}
+                    </div>
+                `;
+            } else if (type === 'file') {
+                messageDiv.className = 'flex justify-start mb-4';
+                messageDiv.innerHTML = `
+                    <div class="received-message p-3 max-w-xs">
+                        <div class="flex items-center space-x-2">
+                            <div class="text-2xl">📎</div>
+                            <div>
+                                <div class="font-medium text-sm">${text}</div>
+                                <div class="text-xs text-gray-500">File attachment</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'sent') {
+                messageDiv.className = 'flex justify-end mb-4';
+                messageDiv.innerHTML = `
+                    <div class="sent-message p-3">
+                        <div class="text-sm">${text}</div>
+                        <div class="text-xs text-gray-600 mt-1 text-right">✓✓</div>
+                    </div>
+                `;
+            } else {
+                messageDiv.className = 'flex justify-start mb-4';
+                messageDiv.innerHTML = `
+                    <div class="received-message p-3">
+                        <div class="font-medium text-xs text-gray-600 mb-1">${sender}</div>
+                        <div class="text-sm">${text}</div>
+                    </div>
+                `;
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function showResponseOptions(step) {
+            document.getElementById('situationPrompt').textContent = step.prompt;
+            const optionButtons = document.getElementById('optionButtons');
+            optionButtons.innerHTML = '';
+            
+            step.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'option-button w-full text-left p-4 bg-gray-50 hover:bg-gray-100 rounded-lg border transition-all';
+                button.textContent = option.text;
+                button.onclick = () => selectOption(option, button, step.options);
+                optionButtons.appendChild(button);
+            });
+        }
+
+        function selectOption(selectedOption, buttonElement, allOptions) {
+            trainingState.totalQuestions++;
+            
+            // Disable all buttons
+            const allButtons = document.querySelectorAll('.option-button');
+            allButtons.forEach(btn => btn.disabled = true);
+            
+            // Show feedback for all options
+            allOptions.forEach((option, index) => {
+                const button = allButtons[index];
+                if (option.correct) {
+                    button.classList.add('option-correct');
+                    if (option === selectedOption) {
+                        trainingState.correctAnswers++;
+                    }
+                } else {
+                    button.classList.add('option-incorrect');
+                }
+                
+                // Add feedback text
+                const feedback = document.createElement('div');
+                feedback.className = 'text-sm mt-2 text-gray-700';
+                feedback.textContent = option.feedback;
+                button.appendChild(feedback);
+            });
+            
+            // Add user's selected message to chat
+            setTimeout(() => {
+                addMessage('You', selectedOption.text, 'sent');
+                
+                // Show next step button or complete scenario
+                setTimeout(() => {
+                    if (trainingState.currentStep < scenarios[trainingState.currentScenario].steps.length - 1) {
+                        showNextStepButton();
+                    } else {
+                        completeScenario();
+                    }
+                }, 1000);
+            }, 1000);
+        }
+
+        function showNextStepButton() {
+            const optionButtons = document.getElementById('optionButtons');
+            const nextButton = document.createElement('button');
+            nextButton.className = 'w-full bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-lg font-bold mt-4 transition-all';
+            nextButton.textContent = 'Continue to Next Situation →';
+            nextButton.onclick = nextStep;
+            optionButtons.appendChild(nextButton);
+        }
+
+        function nextStep() {
+            trainingState.currentStep++;
+            loadStep();
+        }
+
+        function completeScenario() {
+            const scenarioId = trainingState.currentScenario;
+            
+            // Mark scenario as completed
+            if (!trainingState.completedScenarios.includes(scenarioId)) {
+                trainingState.completedScenarios.push(scenarioId);
+            }
+            
+            // Update progress
+            updateProgress();
+            
+            // Show results
+            showResults();
+            
+            // Check for achievements
+            checkAchievements();
+        }
+
+        function showResults() {
+            document.getElementById('chatInterface').classList.add('hidden');
+            document.getElementById('resultsScreen').classList.remove('hidden');
+            
+            const percentage = Math.round((trainingState.correctAnswers / trainingState.totalQuestions) * 100);
+            
+            // Update results display
+            document.getElementById('correctAnswers').textContent = trainingState.correctAnswers;
+            document.getElementById('totalQuestions').textContent = trainingState.totalQuestions;
+            document.getElementById('scorePercentage').textContent = percentage + '%';
+            
+            // Set appropriate emoji and message based on performance
+            let emoji, title, message;
+            if (percentage >= 90) {
+                emoji = '🏆';
+                title = 'Outstanding!';
+                message = 'You have excellent professional communication skills!';
+            } else if (percentage >= 70) {
+                emoji = '🎉';
+                title = 'Great Job!';
+                message = 'You\'re developing strong communication skills. Keep practicing!';
+            } else if (percentage >= 50) {
+                emoji = '👍';
+                title = 'Good Effort!';
+                message = 'You\'re on the right track. Review the feedback and try again!';
+            } else {
+                emoji = '📚';
+                title = 'Keep Learning!';
+                message = 'Communication skills take practice. Review the tips and try again!';
+            }
+            
+            document.getElementById('resultEmoji').textContent = emoji;
+            document.getElementById('resultTitle').textContent = title;
+            document.getElementById('resultMessage').textContent = message;
+        }
+
+        function updateProgress() {
+            const totalScenarios = Object.keys(scenarios).length;
+            const completedCount = trainingState.completedScenarios.length;
+            const percentage = (completedCount / totalScenarios) * 100;
+            
+            document.getElementById('progressBar').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = `${completedCount}/${totalScenarios} Scenarios`;
+        }
+
+        function checkAchievements() {
+            const completedCount = trainingState.completedScenarios.length;
+            const percentage = Math.round((trainingState.correctAnswers / trainingState.totalQuestions) * 100);
+            
+            // First scenario completion
+            if (completedCount === 1 && !trainingState.achievements.includes('first-scenario')) {
+                showAchievement('🎯', 'First Steps', 'Completed your first scenario!');
+                trainingState.achievements.push('first-scenario');
+            }
+            
+            // Perfect score
+            if (percentage === 100 && !trainingState.achievements.includes('perfect-score')) {
+                showAchievement('💯', 'Perfect Score', 'Got 100% on a scenario!');
+                trainingState.achievements.push('perfect-score');
+            }
+            
+            // All scenarios completed
+            if (completedCount === Object.keys(scenarios).length && !trainingState.achievements.includes('master-communicator')) {
+                showAchievement('🏆', 'Master Communicator', 'Completed all scenarios!');
+                trainingState.achievements.push('master-communicator');
+            }
+        }
+
+        function showAchievement(icon, title, description) {
+            const notification = document.getElementById('achievementNotification');
+            document.getElementById('achievementIcon').textContent = icon;
+            document.getElementById('achievementTitle').textContent = title;
+            document.getElementById('achievementDesc').textContent = description;
+            
+            notification.classList.remove('translate-x-full');
+            
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+            }, 4000);
+        }
+
+        function backToScenarios() {
+            document.getElementById('chatInterface').classList.add('hidden');
+            document.getElementById('resultsScreen').classList.add('hidden');
+            document.getElementById('scenarioSelection').classList.remove('hidden');
+            loadScenarios(); // Refresh to show completed scenarios
+        }
+
+        function restartScenario() {
+            if (trainingState.currentScenario) {
+                startScenario(trainingState.currentScenario);
+            }
+        }
+
+        // Initialize progress on page load
+        window.addEventListener('load', () => {
+            updateProgress();
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98bc1a72755821f0',t:'MTc1OTk5NDI5OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
