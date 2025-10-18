@@ -10,27 +10,35 @@
         body {
             box-sizing: border-box;
             font-family: 'Inter', sans-serif;
+            background-color: #f9fafb;
+            padding-bottom: 72px; /* Space for the fixed guide bar */
         }
         
         .whatsapp-bg {
-            background: linear-gradient(135deg, #128C7E 0%, #075E54 100%);
+            /* Updated to a deeper, more professional green */
+            background: linear-gradient(135deg, #059669 0%, #065F46 100%); 
         }
         
         .chat-container {
+            /* More visually interesting, higher-contrast pattern */
             background: #E5DDD5;
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d9dad3' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+            /* Fixed Height for consistent UX and better scroll management */
+            height: 500px; 
+            overflow-y: auto;
         }
         
         .message-bubble {
             max-width: 80%;
             word-wrap: break-word;
-            animation: messageSlide 0.3s ease-out;
+            animation: messageSlide 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         
         @keyframes messageSlide {
             from {
                 opacity: 0;
-                transform: translateY(10px);
+                transform: translateY(15px);
             }
             to {
                 opacity: 1;
@@ -40,207 +48,249 @@
         
         .received-message {
             background: #FFFFFF;
-            border-radius: 7.5px 7.5px 7.5px 0;
-            box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+            border-radius: 12px 12px 12px 4px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
         }
         
         .sent-message {
-            background: #DCF8C6;
-            border-radius: 7.5px 7.5px 0 7.5px;
-            box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+            background: #DCECF7;
+            border-radius: 12px 12px 4px 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
         }
         
         .option-button {
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             border: 2px solid transparent;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            outline: none;
+            cursor: pointer;
+        }
+
+        .option-button.cursor-not-allowed {
+            cursor: not-allowed;
         }
         
-        .option-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        .option-button:focus:not([disabled]) {
+            box-shadow: 0 0 0 4px #bbf7d0;
         }
         
+        .option-button:hover:not([disabled]) {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        }
+        
+        /* Highlighting for selected/disabled options */
         .option-correct {
-            border-color: #10B981;
-            background: #ECFDF5;
+            border-color: #059669;
+            background: #D1FAE5 !important; /* Lighter shade of green for correct selected */
+            color: #065F46;
         }
         
         .option-incorrect {
-            border-color: #EF4444;
-            background: #FEF2F2;
-        }
-        
-        .typing-indicator {
-            animation: typing 1.5s infinite;
-        }
-        
-        @keyframes typing {
-            0%, 60%, 100% { opacity: 0.3; }
-            30% { opacity: 1; }
-        }
-        
-        .progress-bar {
-            transition: width 0.5s ease;
+            border-color: #DC2626;
+            background: #FEE2E2 !important; /* Lighter shade of red for incorrect selected */
+            color: #991B1B;
         }
         
         .scenario-card {
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border: none;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
         
         .scenario-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .guide-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background-color: #fff; 
+            border-top: 5px solid #059669;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+            animation: fadeIn 0.5s ease-out;
         }
         
-        .badge {
-            animation: badgeBounce 0.6s ease-out;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        
-        @keyframes badgeBounce {
-            0% { transform: scale(0) rotate(180deg); }
-            50% { transform: scale(1.2) rotate(0deg); }
-            100% { transform: scale(1) rotate(0deg); }
+
+        /* Styling for the hidden element in the modal (when answer is correct) */
+        .hidden-when-correct {
+            display: none !important;
         }
+
     </style>
 </head>
-<body class="bg-gray-100 min-h-full">
-    <!-- Header -->
-    <div class="whatsapp-bg text-white p-4 shadow-lg">
+<body class="min-h-full">
+    <div class="whatsapp-bg text-white p-4 shadow-2xl">
         <div class="max-w-4xl mx-auto flex items-center justify-between">
             <div class="flex items-center space-x-4">
-                <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-2xl">💬</div>
+                <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center text-3xl shadow-lg">💬</div>
                 <div>
-                    <h1 class="text-2xl font-bold">WhatsApp Office Communication Trainer</h1>
-                    <p class="text-green-100">Learn professional messaging skills</p>
+                    <h1 class="text-3xl font-extrabold">Office Comm. Trainer</h1>
+                    <p class="text-green-200 text-sm">Elevate your professional messaging</p>
                 </div>
             </div>
             <div class="text-right">
-                <div class="text-sm opacity-90">Progress</div>
-                <div class="w-32 bg-green-800 rounded-full h-3 mt-1">
-                    <div class="progress-bar bg-yellow-400 h-full rounded-full" style="width: 0%" id="progressBar"></div>
+                <div class="text-sm opacity-90">Training Progress</div>
+                <div class="w-32 bg-green-800 rounded-full h-3 mt-1 overflow-hidden">
+                    <div class="progress-bar bg-cyan-400 h-full rounded-full" style="width: 0%" id="progressBar"></div>
                 </div>
-                <div class="text-xs mt-1" id="progressText">0/5 Scenarios</div>
+                <div class="text-xs mt-1 text-green-200" id="progressText">0/5 Scenarios</div>
             </div>
         </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="max-w-4xl mx-auto p-6">
-        <!-- Welcome Screen -->
-        <div id="welcomeScreen" class="text-center py-12">
-            <div class="text-8xl mb-6">📱</div>
-            <h2 class="text-4xl font-bold text-gray-800 mb-4">Master Professional WhatsApp Communication</h2>
-            <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-                Learn how to communicate effectively in office WhatsApp groups through interactive role-play scenarios. 
-                Practice real situations and get instant feedback!
+    <div class="max-w-4xl mx-auto p-6 pb-24">
+        
+        <div id="welcomeScreen" class="text-center py-16">
+            <div class="text-9xl mb-6 animate-pulse-slow">🚀</div>
+            <h2 class="text-5xl font-extrabold text-gray-800 mb-4">Master Professional WhatsApp Communication</h2>
+            <p class="text-xl text-gray-600 mb-10 max-w-2xl mx-auto">
+                Step into interactive role-play scenarios to practice and perfect your communication skills for the modern office environment.
             </p>
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="bg-white p-6 rounded-xl shadow-lg">
-                    <div class="text-4xl mb-3">🎯</div>
-                    <h3 class="font-bold text-lg mb-2">Real Scenarios</h3>
-                    <p class="text-gray-600 text-sm">Practice with actual office situations you'll encounter</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="bg-white p-6 rounded-2xl shadow-xl border-t-4 border-emerald-500 transform hover:scale-105 transition-transform">
+                    <div class="text-5xl mb-3">🎯</div>
+                    <h3 class="font-bold text-xl mb-2 text-gray-800">High-Fidelity Scenarios</h3>
+                    <p class="text-gray-500 text-sm">Practice with actual office situations you'll encounter</p>
                 </div>
-                <div class="bg-white p-6 rounded-xl shadow-lg">
-                    <div class="text-4xl mb-3">💡</div>
-                    <h3 class="font-bold text-lg mb-2">Instant Feedback</h3>
-                    <p class="text-gray-600 text-sm">Learn why certain responses work better than others</p>
+                <div class="bg-white p-6 rounded-2xl shadow-xl border-t-4 border-yellow-500 transform hover:scale-105 transition-transform">
+                    <div class="text-5xl mb-3">💡</div>
+                    <h3 class="font-bold text-xl mb-2 text-gray-800">Detailed Feedback</h3>
+                    <p class="text-gray-500 text-sm">Instantly learn why certain responses work better than others</p>
                 </div>
-                <div class="bg-white p-6 rounded-xl shadow-lg">
-                    <div class="text-4xl mb-3">🏆</div>
-                    <h3 class="font-bold text-lg mb-2">Track Progress</h3>
-                    <p class="text-gray-600 text-sm">See your improvement and earn communication badges</p>
+                <div class="bg-white p-6 rounded-2xl shadow-xl border-t-4 border-indigo-500 transform hover:scale-105 transition-transform">
+                    <div class="text-5xl mb-3">🏆</div>
+                    <h3 class="font-bold text-xl mb-2 text-gray-800">Track & Gamify</h3>
+                    <p class="text-gray-500 text-sm">See your improvement and earn exclusive communication badges</p>
                 </div>
             </div>
             
-            <button onclick="startTraining()" class="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-xl font-bold text-xl transform hover:scale-105 transition-all shadow-lg">
-                🚀 Start Training
+            <button onclick="startTraining()" class="bg-lime-600 hover:bg-lime-700 text-white px-10 py-5 rounded-full font-bold text-xl transform hover:scale-105 transition-all shadow-2xl hover:shadow-3xl focus:outline-none focus:ring-4 focus:ring-lime-300">
+                🚀 Start Your Training Journey
             </button>
         </div>
 
-        <!-- Scenario Selection -->
         <div id="scenarioSelection" class="hidden">
-            <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Choose Your Training Scenario</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="scenarioGrid">
-                <!-- Scenarios will be loaded here -->
-            </div>
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center border-b-2 pb-4">Choose Your Training Scenario</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="scenarioGrid">
+                </div>
         </div>
 
-        <!-- Chat Interface -->
-        <div id="chatInterface" class="hidden">
-            <!-- Chat Header -->
-            <div class="bg-green-600 text-white p-4 rounded-t-xl flex items-center space-x-4">
-                <button onclick="backToScenarios()" class="text-white hover:bg-green-700 p-2 rounded-full transition-all">
-                    ← Back
+        <div id="chatInterface" class="hidden rounded-xl shadow-2xl overflow-hidden mb-10">
+            <div class="bg-emerald-600 text-white p-4 flex items-center space-x-4 shadow-md">
+                <button onclick="backToScenarios()" class="text-white hover:bg-emerald-700 p-2 rounded-full transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
                 </button>
-                <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center" id="groupAvatar">👥</div>
+                <div class="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center text-xl font-bold text-gray-800" id="groupAvatar">👥</div>
                 <div>
-                    <div class="font-bold" id="groupName">Office Group</div>
+                    <div class="font-bold text-xl" id="groupName">Office Group</div>
                     <div class="text-sm text-green-100" id="groupInfo">5 participants</div>
                 </div>
             </div>
 
-            <!-- Chat Messages -->
-            <div class="chat-container h-96 overflow-y-auto p-4" id="chatMessages">
-                <!-- Messages will appear here -->
-            </div>
-
-            <!-- Response Options -->
-            <div class="bg-white p-4 rounded-b-xl border-t" id="responseOptions">
-                <div class="text-sm text-gray-600 mb-3" id="situationPrompt">How would you respond?</div>
-                <div class="space-y-2" id="optionButtons">
-                    <!-- Option buttons will appear here -->
+            <div class="chat-container" id="chatMessages">
                 </div>
+
+            <div class="bg-white p-6 border-t-4 border-gray-100" id="responseOptions">
+                <div class="text-lg font-semibold text-gray-800 mb-4" id="situationPrompt">How would you respond?</div>
+                <div class="space-y-3" id="optionButtons">
+                    </div>
             </div>
         </div>
 
-        <!-- Results Screen -->
-        <div id="resultsScreen" class="hidden text-center py-12">
-            <div class="text-8xl mb-6" id="resultEmoji">🎉</div>
-            <h2 class="text-4xl font-bold text-gray-800 mb-4" id="resultTitle">Great Job!</h2>
-            <p class="text-xl text-gray-600 mb-8" id="resultMessage">You've completed the training scenario.</p>
+        <div id="resultsScreen" class="hidden text-center py-16 bg-white rounded-xl shadow-2xl">
+            <div class="text-9xl mb-6" id="resultEmoji">🎉</div>
+            <h2 class="text-5xl font-extrabold text-gray-800 mb-4" id="resultTitle">Great Job!</h2>
+            <p class="text-xl text-gray-600 mb-10 max-w-2xl mx-auto" id="resultMessage">You've completed the training scenario.</p>
             
-            <div class="bg-white rounded-xl p-8 shadow-lg max-w-2xl mx-auto mb-8">
-                <h3 class="text-2xl font-bold mb-6">Your Performance</h3>
-                <div class="grid grid-cols-3 gap-6">
+            <div class="bg-gray-50 rounded-xl p-8 shadow-inner max-w-2xl mx-auto mb-10 border-t-4 border-lime-400">
+                <h3 class="text-3xl font-bold mb-8 text-gray-800">Your Performance</h3>
+                <div class="grid grid-cols-3 gap-8">
                     <div class="text-center">
-                        <div class="text-3xl font-bold text-green-600" id="correctAnswers">0</div>
-                        <div class="text-sm text-gray-600">Correct Responses</div>
+                        <div class="text-5xl font-extrabold text-green-600" id="correctAnswers">0</div>
+                        <div class="text-sm text-gray-500 mt-2">Correct Responses</div>
                     </div>
                     <div class="text-center">
-                        <div class="text-3xl font-bold text-blue-600" id="totalQuestions">0</div>
-                        <div class="text-sm text-gray-600">Total Questions</div>
+                        <div class="text-5xl font-extrabold text-blue-600" id="totalQuestions">0</div>
+                        <div class="text-sm text-gray-500 mt-2">Total Questions</div>
                     </div>
                     <div class="text-center">
-                        <div class="text-3xl font-bold text-purple-600" id="scorePercentage">0%</div>
-                        <div class="text-sm text-gray-600">Success Rate</div>
+                        <div class="text-5xl font-extrabold text-purple-600" id="scorePercentage">0%</div>
+                        <div class="text-sm text-gray-500 mt-2">Success Rate</div>
                     </div>
                 </div>
             </div>
 
-            <div class="flex justify-center space-x-4">
-                <button onclick="backToScenarios()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold transition-all">
+            <div class="flex justify-center space-x-6">
+                <button onclick="backToScenarios()" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-bold transition-all shadow-lg hover:shadow-xl">
                     Try Another Scenario
                 </button>
-                <button onclick="restartScenario()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl font-bold transition-all">
+                <button onclick="restartScenario()" class="bg-lime-600 hover:bg-lime-700 text-white px-8 py-4 rounded-full font-bold transition-all shadow-lg hover:shadow-xl">
                     Retry This Scenario
                 </button>
             </div>
         </div>
     </div>
-
-    <!-- Achievement Notification -->
-    <div id="achievementNotification" class="fixed top-4 right-4 bg-yellow-400 text-gray-800 p-4 rounded-xl shadow-lg transform translate-x-full transition-transform duration-300">
-        <div class="flex items-center space-x-3">
-            <div class="text-2xl" id="achievementIcon">🏆</div>
+    
+    <div id="achievementNotification" class="fixed top-6 right-6 bg-white text-gray-800 p-5 rounded-xl shadow-2xl transform translate-x-full transition-transform duration-500 ease-out z-50 border-l-4 border-yellow-500">
+        <div class="flex items-center space-x-4">
+            <div class="text-4xl" id="achievementIcon">🏆</div>
             <div>
-                <div class="font-bold" id="achievementTitle">Achievement Unlocked!</div>
-                <div class="text-sm" id="achievementDesc">Great communication skills!</div>
+                <div class="font-extrabold text-xl" id="achievementTitle">Achievement Unlocked!</div>
+                <div class="text-sm text-gray-600" id="achievementDesc">Great communication skills!</div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="guideBar" class="guide-bar p-4">
+        <div class="max-w-4xl mx-auto flex items-center space-x-3 text-lg font-semibold text-gray-800">
+            <div class="text-2xl text-emerald-600">👉</div>
+            <div id="guideMessage" class="text-gray-700">Click the '🚀 Start Your Training Journey' button above to begin!</div>
+        </div>
+    </div>
+
+    <div id="feedbackModal" class="fixed inset-0 bg-gray-900 bg-opacity-75 hidden z-[100] flex items-center justify-center transition-opacity duration-300">
+        <div class="bg-white rounded-xl shadow-2xl p-8 max-w-xl w-full mx-4 transform transition-transform duration-300">
+            <div id="modalIcon" class="text-7xl mb-4 text-center"></div>
+            <h3 id="modalTitle" class="text-3xl font-extrabold text-gray-800 mb-6 text-center"></h3>
+            
+            <div class="mb-8 space-y-4">
+                <div id="selectedOptionDisplay" class="p-3 border-l-4 rounded-md shadow-inner">
+                    <div class="font-bold text-sm mb-1 text-gray-600">Your Response:</div>
+                    <div id="userResponseText" class="text-gray-900 font-medium"></div>
+                </div>
+                
+                <div id="correctResponseDisplay" class="p-4 bg-green-50 border-l-4 border-green-500 rounded-md shadow-md">
+                    <div class="font-bold text-base text-green-800 mb-2">The Best Approach:</div>
+                    <div id="correctResponseText" class="text-green-900 font-medium"></div>
+                </div>
+
+                <div id="feedbackReason" class="p-4 bg-blue-50 border-l-4 border-blue-500 rounded-md shadow-md">
+                    <div class="font-bold text-base text-blue-800 mb-2">Detailed Reason:</div>
+                    <div id="reasonText" class="text-blue-900 text-sm leading-relaxed"></div>
+                </div>
+            </div>
+            
+            <div class="flex justify-end">
+                <button onclick="nextStepFromModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-bold transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-300">
+                    Go to Next Situation →
+                </button>
             </div>
         </div>
     </div>
 
+
     <script>
+        // --- JAVASCRIPT LOGIC ---
         // Training State
         let trainingState = {
             currentScenario: null,
@@ -251,7 +301,7 @@
             achievements: []
         };
 
-        // Scenario Database
+        // FULL SCENARIO DATABASE
         const scenarios = {
             'meeting-reminder': {
                 title: 'Meeting Reminder',
@@ -271,17 +321,17 @@
                         options: [
                             {
                                 text: "hey guys dont forget meeting tomorrow 10am",
-                                feedback: "Too casual and lacks important details. Professional messages should be clear and complete.",
+                                feedback: "This is **too casual** and lacks essential information like the day, location, and purpose. Professional reminders must be clear and complete.",
                                 correct: false
                             },
                             {
                                 text: "Good morning team! Friendly reminder about our client presentation meeting tomorrow (Tuesday) at 10:00 AM in Conference Room B. Please bring your project updates. Thanks!",
-                                feedback: "Perfect! Professional tone, includes all necessary details (day, time, location, what to bring), and uses polite language.",
+                                feedback: "This response is **perfect**! It uses a professional tone, includes all necessary details (day, time, location, and pre-meeting action item), and uses polite language.",
                                 correct: true
                             },
                             {
                                 text: "MEETING TOMORROW 10AM DON'T BE LATE!!!",
-                                feedback: "Too aggressive and unprofessional. Avoid using all caps and threatening language in office communications.",
+                                feedback: "This is **too aggressive** and unprofessional. Avoid using all caps and threatening language in office communications; it creates a hostile environment.",
                                 correct: false
                             }
                         ]
@@ -295,17 +345,17 @@
                         options: [
                             {
                                 text: "No, you need to be there in person",
-                                feedback: "Too harsh and inflexible. Good managers accommodate reasonable requests when possible.",
+                                feedback: "This is **too harsh and inflexible**. Good managers accommodate reasonable requests, especially related to health, and provide solutions.",
                                 correct: false
                             },
                             {
                                 text: "Of course, Sarah! Hope you feel better soon. I'll send you the meeting link. Take care! 🙂",
-                                feedback: "Excellent! Shows empathy, provides a solution, and maintains a caring but professional tone.",
+                                feedback: "This is an **excellent** response. It shows empathy, immediately provides a solution (the link), and maintains a professional yet caring tone. This builds loyalty.",
                                 correct: true
                             },
                             {
                                 text: "ok",
-                                feedback: "Too brief and doesn't show care for your colleague or provide necessary information (like the meeting link).",
+                                feedback: "This is **too brief** and doesn't show care or provide the necessary information (the meeting link). Always be complete and courteous.",
                                 correct: false
                             }
                         ]
@@ -330,17 +380,17 @@
                         options: [
                             {
                                 text: "we're behind schedule, not my fault though",
-                                feedback: "Unprofessional and defensive. Never blame others or make excuses in professional communications.",
+                                feedback: "This is **unprofessional and defensive**. Always maintain accountability and focus on solutions, not shifting blame, in public communications.",
                                 correct: false
                             },
                             {
                                 text: "Hi team, Quick update on Project Alpha: We're currently 2 days behind due to unexpected technical challenges. Working on solutions and will have revised timeline by Friday. Will keep you posted. Thanks for your patience!",
-                                feedback: "Perfect! Honest, specific, includes next steps, and maintains professional accountability.",
+                                feedback: "This is **perfect**! It is transparent, specific (2 days behind), offers a reason (technical challenges), and clearly outlines the next steps (revised timeline by Friday).",
                                 correct: true
                             },
                             {
                                 text: "everything is fine, no problems here",
-                                feedback: "Dishonest and unhelpful. Transparency is crucial in professional communications.",
+                                feedback: "This is **dishonest and unhelpful**. Transparency is a crucial part of project management. Hiding issues only makes them worse later.",
                                 correct: false
                             }
                         ]
@@ -354,17 +404,17 @@
                         options: [
                             {
                                 text: "it's complicated, you wouldn't understand",
-                                feedback: "Condescending and unprofessional. Always respect your colleagues' intelligence and provide clear explanations.",
+                                feedback: "This is **condescending and unprofessional**. Always respect your colleagues' need for clear, factual explanations, even if simplifying technical details.",
                                 correct: false
                             },
                             {
                                 text: "Sure! The main issue is database integration taking longer than expected. Our dev team is working with IT to resolve compatibility issues. I can schedule a brief call if you'd like more technical details.",
-                                feedback: "Excellent! Provides specific information, shows proactive problem-solving, and offers additional communication if needed.",
+                                feedback: "This is an **excellent** response. It gives a specific and helpful summary of the issue, names the teams working on it, and offers an additional channel (a call) for deeper discussion.",
                                 correct: true
                             },
                             {
                                 text: "just some tech stuff, will be fixed soon",
-                                feedback: "Too vague and dismissive. Stakeholders need specific information to make informed decisions.",
+                                feedback: "This is **too vague and dismissive**. Stakeholders require specific information to understand the risk and make informed decisions.",
                                 correct: false
                             }
                         ]
@@ -389,17 +439,17 @@
                         options: [
                             {
                                 text: "impossible, I'm busy with other things",
-                                feedback: "Too negative and unhelpful. Even if you can't fulfill the request, offer alternatives or solutions.",
+                                feedback: "This is **too negative and unhelpful**. In professional settings, even if you can't fulfill a request, you should try to offer a solution, an alternative, or a partial solution.",
                                 correct: false
                             },
                             {
                                 text: "Hi! I understand the urgency. I can have the Q3 sales report ready by 2:30 PM. I'll prioritize this and send it directly to you. Is there a specific format you need?",
-                                feedback: "Perfect! Acknowledges urgency, commits to a specific time, shows you're prioritizing it, and asks clarifying questions.",
+                                feedback: "This is **perfect**. It acknowledges the urgency, commits to a *realistic and specific* time, shows you are prioritizing it, and preemptively asks a clarifying question (format).",
                                 correct: true
                             },
                             {
                                 text: "why didn't you ask earlier?",
-                                feedback: "Unprofessional and confrontational. Focus on solutions, not blame, especially with urgent requests.",
+                                feedback: "This is **unprofessional and confrontational**. Focus on delivering what is needed, not blaming the requestor for poor planning.",
                                 correct: false
                             }
                         ]
@@ -413,17 +463,17 @@
                         options: [
                             {
                                 text: "can't help, too busy",
-                                feedback: "Too abrupt. You can be brief but still professional and helpful.",
+                                feedback: "This is **too abrupt**. You need to be brief, but still professional and helpful by offering an alternative solution.",
                                 correct: false
                             },
                             {
                                 text: "Hi John! I'm currently working on an urgent report for the board meeting, but I can help you right after (around 3 PM). Alternatively, Sarah from finance might be available now if it's urgent. Let me know!",
-                                feedback: "Excellent! Explains your situation, offers alternative timing, suggests another resource, and maintains helpfulness.",
+                                feedback: "This is an **excellent** response. It clearly explains the current priority, offers a specific alternative time, and suggests another available resource. This balances priorities while remaining helpful.",
                                 correct: true
                             },
                             {
                                 text: "ask someone else",
-                                feedback: "Dismissive and unhelpful. Always try to provide alternatives or explain your situation professionally.",
+                                feedback: "This is **dismissive and unhelpful**. A better response would be to briefly explain your own situation and *then* suggest an alternative person.",
                                 correct: false
                             }
                         ]
@@ -449,17 +499,17 @@
                         options: [
                             {
                                 text: "this looks terrible, start over",
-                                feedback: "Too harsh and demotivating. Feedback should be constructive and specific, not just critical.",
+                                feedback: "This is **too harsh and demotivating**. Feedback should always be delivered constructively, focusing on the work's objective shortcomings, not personal criticism.",
                                 correct: false
                             },
                             {
                                 text: "Great work on the concept, Alex! I like the color scheme. For the Johnson brand, we might want to consider making the font slightly bolder and adjusting the spacing. What do you think about trying those tweaks?",
-                                feedback: "Perfect! Starts with positive feedback, gives specific suggestions, and asks for their input. This is constructive feedback at its best.",
+                                feedback: "This is **perfect**. It starts with a positive comment, gives specific, actionable suggestions, and uses collaborative language ('we might want to consider', 'What do you think'). This is constructive feedback at its best.",
                                 correct: true
                             },
                             {
                                 text: "looks good to me",
-                                feedback: "While positive, this doesn't help improve the work. Good feedback should be honest and helpful, even if it means suggesting improvements.",
+                                feedback: "While positive, this is **unhelpful**. Good feedback is honest and helps the work improve. Being silent about issues is a disservice to the project and the team member.",
                                 correct: false
                             }
                         ]
@@ -473,17 +523,17 @@
                         options: [
                             {
                                 text: "just make it look better",
-                                feedback: "Too vague and unhelpful. When someone asks for specific guidance, provide clear, actionable advice.",
+                                feedback: "This is **too vague** and frustrating. When asked for specific guidance, you must provide clear, actionable, and measurable advice.",
                                 correct: false
                             },
                             {
                                 text: "Sure! Try increasing the space between the icon and text by about 20%, and reduce the letter spacing in the company name slightly. I can hop on a quick call if you'd like to go through it together!",
-                                feedback: "Excellent! Provides specific, measurable guidance and offers additional support. This helps the person learn and improve.",
+                                feedback: "This is **excellent**. It provides specific, measurable guidance (20% increase, reduce letter spacing) and offers further support (a call). This demonstrates effective mentorship.",
                                 correct: true
                             },
                             {
                                 text: "you should know how to do this",
-                                feedback: "Condescending and unhelpful. Good mentoring means helping colleagues grow, not making them feel inadequate.",
+                                feedback: "This is **condescending and unhelpful**. Good team leaders focus on helping colleagues grow, not on making them feel inadequate.",
                                 correct: false
                             }
                         ]
@@ -510,17 +560,17 @@
                         options: [
                             {
                                 text: "guys, stop fighting",
-                                feedback: "Too casual and doesn't address the underlying issue. Professional conflict resolution requires more thoughtful intervention.",
+                                feedback: "This is **too casual** and minimizes the issue. Professional conflict resolution requires thoughtful intervention and a process for resolution.",
                                 correct: false
                             },
                             {
                                 text: "Hi team, I can see we have different perspectives on priorities, which is valuable! Both mobile and web are important. Let's schedule a brief meeting to discuss this properly and align on our roadmap. Mike and Lisa, can you both prepare your key points?",
-                                feedback: "Perfect! Acknowledges both viewpoints, reframes the conflict as valuable input, suggests a proper forum for discussion, and gives both parties a constructive way forward.",
+                                feedback: "This is **perfect**. It acknowledges both viewpoints (reframing the conflict as valuable input), suggests moving the debate to a proper forum (a meeting), and sets clear expectations for the next step. This maintains professionalism and group harmony.",
                                 correct: true
                             },
                             {
                                 text: "Lisa is right, Mike you're wrong",
-                                feedback: "Taking sides will escalate the conflict and damage team dynamics. Good managers help find solutions, not pick winners.",
+                                feedback: "This **takes sides** and will escalate the conflict while damaging team dynamics. A good leader facilitates discussion, they do not pick a winner in a public chat.",
                                 correct: false
                             }
                         ]
@@ -534,17 +584,17 @@
                         options: [
                             {
                                 text: "Mike, you're being difficult",
-                                feedback: "Personal attacks will make the situation worse. Stay professional and focus on the work, not personality conflicts.",
+                                feedback: "This is a **personal attack** and will immediately worsen the situation. Always stay professional and focus on process, not personality.",
                                 correct: false
                             },
                             {
                                 text: "I understand you feel strongly about this, Mike. Let's take this conversation offline to discuss your concerns properly. I'll send you a calendar invite. Thanks everyone for your input!",
-                                feedback: "Excellent! Acknowledges his feelings, moves the conflict out of the group chat, and maintains professionalism while protecting team dynamics.",
+                                feedback: "This is **excellent**. It acknowledges his feelings, professionally extracts the conflict from the group chat (taking it offline), and allows the rest of the team to return to work. This protects group morale.",
                                 correct: true
                             },
                             {
                                 text: "fine, do whatever you want",
-                                feedback: "Passive-aggressive and unprofessional. Leaders need to address conflicts constructively, not give up.",
+                                feedback: "This is **passive-aggressive and unprofessional**. Leaders must address conflicts constructively, not give up or act annoyed.",
                                 correct: false
                             }
                         ]
@@ -553,11 +603,26 @@
             }
         };
 
-        // Initialize the application
+        // --- UX / UTILITY FUNCTIONS ---
+        
+        function scrollToBottom() {
+            const chatMessages = document.getElementById('chatMessages');
+            if (chatMessages) {
+                chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
+            }
+        }
+        
+        function updateGuide(message) {
+            document.getElementById('guideMessage').textContent = message;
+        }
+
+        // --- CORE APPLICATION LOGIC ---
+
         function startTraining() {
             document.getElementById('welcomeScreen').classList.add('hidden');
             document.getElementById('scenarioSelection').classList.remove('hidden');
             loadScenarios();
+            updateGuide("Great! Now, **click on any scenario card** (e.g., 'Meeting Reminder') to start the role-play.");
         }
 
         function loadScenarios() {
@@ -569,24 +634,25 @@
                 const isCompleted = trainingState.completedScenarios.includes(scenarioId);
                 
                 const card = document.createElement('div');
-                card.className = `scenario-card bg-white p-6 rounded-xl shadow-lg cursor-pointer border-2 ${isCompleted ? 'border-green-200 bg-green-50' : 'border-gray-200 hover:border-blue-300'}`;
+                card.className = `scenario-card bg-white p-6 rounded-2xl shadow-xl cursor-pointer ${isCompleted ? 'border-l-4 border-green-500' : 'border-l-4 border-gray-200'}`;
                 card.onclick = () => startScenario(scenarioId);
                 
                 card.innerHTML = `
                     <div class="flex items-center justify-between mb-4">
-                        <div class="text-4xl">${scenario.icon}</div>
-                        ${isCompleted ? '<div class="badge text-green-600 text-2xl">✅</div>' : ''}
+                        <div class="text-5xl">${scenario.icon}</div>
+                        ${isCompleted ? '<div class="badge text-green-600 text-3xl">✅</div>' : ''}
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">${scenario.title}</h3>
-                    <p class="text-gray-600 mb-4">${scenario.description}</p>
-                    <div class="flex items-center justify-between">
-                        <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">${scenario.difficulty}</span>
+                    <h3 class="text-xl font-extrabold text-gray-900 mb-2">${scenario.title}</h3>
+                    <p class="text-gray-500 mb-4">${scenario.description}</p>
+                    <div class="flex items-center justify-between pt-2 border-t border-gray-100">
+                        <span class="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm font-medium">${scenario.difficulty}</span>
                         <span class="text-sm text-gray-500">${scenario.steps.length} situations</span>
                     </div>
                 `;
                 
                 grid.appendChild(card);
             });
+            updateGuide("Choose a scenario above. Completed scenarios are marked with a green check (✅).");
         }
 
         function startScenario(scenarioId) {
@@ -596,6 +662,11 @@
             trainingState.totalQuestions = 0;
 
             const scenario = scenarios[scenarioId];
+            
+            // IMMEDIATE CLEARING FIX: Clear UI elements before showing the chat interface
+            document.getElementById('chatMessages').innerHTML = ''; // Clear chat history immediately
+            document.getElementById('optionButtons').innerHTML = ''; // Clear options immediately
+            document.getElementById('feedbackModal').classList.add('hidden'); // Ensure modal is closed
             
             // Update chat header
             document.getElementById('groupName').textContent = scenario.groupName;
@@ -614,26 +685,36 @@
             const scenario = scenarios[trainingState.currentScenario];
             const step = scenario.steps[trainingState.currentStep];
             
-            // Clear previous messages and options
+            // Clear previous messages (important for step-to-step transitions)
             const chatMessages = document.getElementById('chatMessages');
             chatMessages.innerHTML = '';
             
-            // Add context message
+            // Ensure modal is closed before new messages arrive
+            document.getElementById('feedbackModal').classList.add('hidden');
+            
+            // Drastically reduced delays for quicker loading
+            const staggerDelay = 200; 
+            let totalDelay = 0;
+            
+            // Add context message instantly
             if (step.context) {
-                addMessage('system', step.context, 'info');
+                addMessage('system', step.context, 'info'); 
             }
             
-            // Add step messages
-            step.messages.forEach(message => {
+            // Add step messages with a much faster stagger
+            step.messages.forEach((message, index) => {
+                totalDelay += staggerDelay;
                 setTimeout(() => {
                     addMessage(message.sender, message.text, message.type);
-                }, 500);
+                }, totalDelay);
             });
             
-            // Show response options after messages
+            // Show response options 300ms after the last message has been scheduled
+            const delayBeforeOptions = totalDelay + 300;
+            
             setTimeout(() => {
                 showResponseOptions(step);
-            }, 1000);
+            }, delayBeforeOptions);
         }
 
         function addMessage(sender, text, type = 'received') {
@@ -641,18 +722,18 @@
             const messageDiv = document.createElement('div');
             
             if (type === 'info') {
-                messageDiv.className = 'text-center mb-4';
+                messageDiv.className = 'text-center mb-6 message-bubble';
                 messageDiv.innerHTML = `
-                    <div class="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-lg inline-block text-sm">
+                    <div class="bg-indigo-100 text-indigo-800 px-5 py-3 rounded-xl inline-block text-sm font-medium shadow-md">
                         ℹ️ ${text}
                     </div>
                 `;
             } else if (type === 'file') {
-                messageDiv.className = 'flex justify-start mb-4';
+                messageDiv.className = 'flex justify-start mb-4 message-bubble';
                 messageDiv.innerHTML = `
-                    <div class="received-message p-3 max-w-xs">
+                    <div class="received-message p-3 max-w-xs shadow-lg">
                         <div class="flex items-center space-x-2">
-                            <div class="text-2xl">📎</div>
+                            <div class="text-3xl">📎</div>
                             <div>
                                 <div class="font-medium text-sm">${text}</div>
                                 <div class="text-xs text-gray-500">File attachment</div>
@@ -661,25 +742,25 @@
                     </div>
                 `;
             } else if (type === 'sent') {
-                messageDiv.className = 'flex justify-end mb-4';
+                messageDiv.className = 'flex justify-end mb-4 message-bubble';
                 messageDiv.innerHTML = `
-                    <div class="sent-message p-3">
+                    <div class="sent-message p-3 shadow-lg">
                         <div class="text-sm">${text}</div>
-                        <div class="text-xs text-gray-600 mt-1 text-right">✓✓</div>
+                        <div class="text-xs text-blue-800 mt-1 text-right font-semibold">✓✓</div>
                     </div>
                 `;
             } else {
-                messageDiv.className = 'flex justify-start mb-4';
+                messageDiv.className = 'flex justify-start mb-4 message-bubble';
                 messageDiv.innerHTML = `
-                    <div class="received-message p-3">
-                        <div class="font-medium text-xs text-gray-600 mb-1">${sender}</div>
+                    <div class="received-message p-3 shadow-lg">
+                        <div class="font-bold text-xs text-emerald-600 mb-1">${sender}</div>
                         <div class="text-sm">${text}</div>
                     </div>
                 `;
             }
             
             chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+            scrollToBottom(); 
         }
 
         function showResponseOptions(step) {
@@ -687,63 +768,103 @@
             const optionButtons = document.getElementById('optionButtons');
             optionButtons.innerHTML = '';
             
-            step.options.forEach((option, index) => {
+            step.options.forEach((option) => {
                 const button = document.createElement('button');
-                button.className = 'option-button w-full text-left p-4 bg-gray-50 hover:bg-gray-100 rounded-lg border transition-all';
+                button.className = 'option-button w-full text-left p-4 bg-white hover:bg-gray-50 rounded-xl border border-gray-200 transition-all';
                 button.textContent = option.text;
-                button.onclick = () => selectOption(option, button, step.options);
+                // Pass all options to the handler
+                button.onclick = () => selectOption(option, button, step.options); 
                 optionButtons.appendChild(button);
             });
+            updateGuide("Read the prompt above and **click the response** that you think is most professional.");
+        }
+
+        function showFeedbackModal(selectedOption, allOptions) {
+            const modal = document.getElementById('feedbackModal');
+            const correctDisplay = document.getElementById('correctResponseDisplay');
+            const isCorrect = selectedOption.correct;
+            const correctOption = allOptions.find(opt => opt.correct);
+            
+            // --- NEW LOGIC: Hide 'The Best Approach' if the user chose correctly ---
+            if (isCorrect) {
+                correctDisplay.classList.add('hidden-when-correct');
+                document.getElementById('modalIcon').textContent = '✅';
+                document.getElementById('modalTitle').textContent = 'Excellent Choice!';
+            } else {
+                correctDisplay.classList.remove('hidden-when-correct');
+                document.getElementById('modalIcon').textContent = '❌';
+                document.getElementById('modalTitle').textContent = 'Needs Refinement.';
+            }
+            
+            // Set User Response Display
+            document.getElementById('userResponseText').textContent = selectedOption.text;
+            document.getElementById('selectedOptionDisplay').className = `p-3 border-l-4 rounded-md shadow-inner ${isCorrect ? 'border-green-500 bg-green-50' : 'border-red-500 bg-red-50'}`;
+            
+            // Set Correct Response Display (Always set it, but it may be hidden by the class above)
+            document.getElementById('correctResponseText').textContent = correctOption.text;
+            
+            // Set Detailed Reason
+            document.getElementById('reasonText').innerHTML = selectedOption.feedback;
+
+            // Show modal
+            modal.classList.remove('hidden');
+            
+            // Update guide to prompt next action
+            updateGuide("Review the detailed feedback in the pop-up, then click **'Go to Next Situation'**.");
         }
 
         function selectOption(selectedOption, buttonElement, allOptions) {
+            // Only allow one click per step
+            if (buttonElement.disabled) return; 
+            
             trainingState.totalQuestions++;
+            if (selectedOption.correct) {
+                trainingState.correctAnswers++;
+            }
             
-            // Disable all buttons
+            // Visually mark the selected button and disable all
             const allButtons = document.querySelectorAll('.option-button');
-            allButtons.forEach(btn => btn.disabled = true);
-            
-            // Show feedback for all options
-            allOptions.forEach((option, index) => {
-                const button = allButtons[index];
-                if (option.correct) {
-                    button.classList.add('option-correct');
-                    if (option === selectedOption) {
-                        trainingState.correctAnswers++;
-                    }
-                } else {
-                    button.classList.add('option-incorrect');
-                }
-                
-                // Add feedback text
-                const feedback = document.createElement('div');
-                feedback.className = 'text-sm mt-2 text-gray-700';
-                feedback.textContent = option.feedback;
-                button.appendChild(feedback);
+            allButtons.forEach(btn => {
+                btn.disabled = true;
+                btn.classList.remove('hover:bg-gray-50'); // Remove hover effect
+                btn.classList.add('cursor-not-allowed'); // Indicate disabled state
             });
+
+            // Highlight the selected option (Correct/Incorrect)
+            if (selectedOption.correct) {
+                buttonElement.classList.add('option-correct');
+                buttonElement.classList.remove('bg-white');
+            } else {
+                buttonElement.classList.add('option-incorrect');
+                buttonElement.classList.remove('bg-white');
+            }
             
-            // Add user's selected message to chat
+            // Scroll to bottom immediately (to see the sent message)
+            scrollToBottom(); 
+
+            // Add user's selected message to chat (fast)
             setTimeout(() => {
                 addMessage('You', selectedOption.text, 'sent');
                 
-                // Show next step button or complete scenario
+                // Show the new feedback modal after user message is sent
                 setTimeout(() => {
-                    if (trainingState.currentStep < scenarios[trainingState.currentScenario].steps.length - 1) {
-                        showNextStepButton();
-                    } else {
-                        completeScenario();
-                    }
-                }, 1000);
-            }, 1000);
+                    showFeedbackModal(selectedOption, allOptions);
+                }, 500); // Slight delay for the chat to settle
+            }, 200);
         }
-
-        function showNextStepButton() {
-            const optionButtons = document.getElementById('optionButtons');
-            const nextButton = document.createElement('button');
-            nextButton.className = 'w-full bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-lg font-bold mt-4 transition-all';
-            nextButton.textContent = 'Continue to Next Situation →';
-            nextButton.onclick = nextStep;
-            optionButtons.appendChild(nextButton);
+        
+        // New function to handle closing the modal and advancing the scenario
+        function nextStepFromModal() {
+            document.getElementById('feedbackModal').classList.add('hidden');
+            
+            // Clear options buttons to prepare for the next step
+            document.getElementById('optionButtons').innerHTML = ''; 
+            
+            if (trainingState.currentStep < scenarios[trainingState.currentScenario].steps.length - 1) {
+                nextStep(); // Existing function to increment step and call loadStep()
+            } else {
+                completeScenario();
+            }
         }
 
         function nextStep() {
@@ -754,19 +875,14 @@
         function completeScenario() {
             const scenarioId = trainingState.currentScenario;
             
-            // Mark scenario as completed
             if (!trainingState.completedScenarios.includes(scenarioId)) {
                 trainingState.completedScenarios.push(scenarioId);
             }
             
-            // Update progress
             updateProgress();
-            
-            // Show results
             showResults();
-            
-            // Check for achievements
             checkAchievements();
+            updateGuide("Scenario Complete! Review your performance metrics and choose your next action.");
         }
 
         function showResults() {
@@ -775,29 +891,19 @@
             
             const percentage = Math.round((trainingState.correctAnswers / trainingState.totalQuestions) * 100);
             
-            // Update results display
             document.getElementById('correctAnswers').textContent = trainingState.correctAnswers;
             document.getElementById('totalQuestions').textContent = trainingState.totalQuestions;
             document.getElementById('scorePercentage').textContent = percentage + '%';
             
-            // Set appropriate emoji and message based on performance
             let emoji, title, message;
             if (percentage >= 90) {
-                emoji = '🏆';
-                title = 'Outstanding!';
-                message = 'You have excellent professional communication skills!';
+                emoji = '🏆'; title = 'Outstanding! Master Communicator!'; message = 'You have flawless professional communication skills. Excellent work!';
             } else if (percentage >= 70) {
-                emoji = '🎉';
-                title = 'Great Job!';
-                message = 'You\'re developing strong communication skills. Keep practicing!';
+                emoji = '🎉'; title = 'Great Job!'; message = 'You\'re developing strong communication skills. Review the feedback and keep practicing!';
             } else if (percentage >= 50) {
-                emoji = '👍';
-                title = 'Good Effort!';
-                message = 'You\'re on the right track. Review the feedback and try again!';
+                emoji = '👍'; title = 'Good Effort!'; message = 'You\'re on the right track. Focus on the core principles and try again!';
             } else {
-                emoji = '📚';
-                title = 'Keep Learning!';
-                message = 'Communication skills take practice. Review the tips and try again!';
+                emoji = '📚'; title = 'Keep Learning!'; message = 'Communication skills take practice. Review the tips and try again to master these scenarios!';
             }
             
             document.getElementById('resultEmoji').textContent = emoji;
@@ -818,21 +924,18 @@
             const completedCount = trainingState.completedScenarios.length;
             const percentage = Math.round((trainingState.correctAnswers / trainingState.totalQuestions) * 100);
             
-            // First scenario completion
             if (completedCount === 1 && !trainingState.achievements.includes('first-scenario')) {
-                showAchievement('🎯', 'First Steps', 'Completed your first scenario!');
+                showAchievement('🎯', 'First Steps Achieved', 'Completed your first communication scenario!');
                 trainingState.achievements.push('first-scenario');
             }
             
-            // Perfect score
-            if (percentage === 100 && !trainingState.achievements.includes('perfect-score')) {
-                showAchievement('💯', 'Perfect Score', 'Got 100% on a scenario!');
+            if (percentage === 100 && !trainingState.achievements.includes('perfect-score') && trainingState.totalQuestions > 0) {
+                showAchievement('💯', 'Perfect Score!', 'A flawless performance in this scenario!');
                 trainingState.achievements.push('perfect-score');
             }
             
-            // All scenarios completed
             if (completedCount === Object.keys(scenarios).length && !trainingState.achievements.includes('master-communicator')) {
-                showAchievement('🏆', 'Master Communicator', 'Completed all scenarios!');
+                showAchievement('🏆', 'Master Communicator', 'You have completed all scenarios! Well done!');
                 trainingState.achievements.push('master-communicator');
             }
         }
@@ -854,19 +957,23 @@
             document.getElementById('chatInterface').classList.add('hidden');
             document.getElementById('resultsScreen').classList.add('hidden');
             document.getElementById('scenarioSelection').classList.remove('hidden');
-            loadScenarios(); // Refresh to show completed scenarios
+            document.getElementById('feedbackModal').classList.add('hidden'); // Close modal
+            loadScenarios();
         }
 
         function restartScenario() {
+            document.getElementById('resultsScreen').classList.add('hidden');
+            document.getElementById('feedbackModal').classList.add('hidden'); // Close modal
             if (trainingState.currentScenario) {
                 startScenario(trainingState.currentScenario);
             }
         }
 
-        // Initialize progress on page load
+        // Initialize progress and guide on page load
         window.addEventListener('load', () => {
             updateProgress();
+            updateGuide("Welcome! Click the **'🚀 Start Your Training Journey'** button above to begin!");
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98bc1a72755821f0',t:'MTc1OTk5NDI5OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
